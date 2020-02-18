@@ -1,43 +1,27 @@
-import React, {useState} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button'
 
-const YesNo = ({children, question}) => {
-  const [yes, setYes] = useState(false)
-  const [no, setNo] = useState(false)
-
-  const handleYes = () => {
-    setYes(true)
-  }
-
-  const handleNo = () => {
-    setNo(true)
-  }
-
-  // const reset = () => {
-  //   setYes(false)
-  //   setNo(false)
-  // }
-
+const YesNo = ({question, responses, handleResponse}) => {
   return (
     <div>
-      {!yes && !no && (
-        <div>
-          {question && <div>{question}</div>}
-          <Button onClick={handleYes}>Oui</Button>
-          <Button onClick={handleNo}>Non</Button>
-        </div>
-      )}
-      {/* {(yes || no) && <Button onClick={reset}>Retour</Button>} */}
-      {yes && (children[0] || children)}
-      {no && children[1]}
+      <div>{question}</div>
+      {responses.map(response => (
+        <Button
+          key={response.label}
+          onClick={() => handleResponse(response.value)}
+        >
+          {response.label}
+        </Button>
+      ))}
     </div>
   )
 }
 
 YesNo.propTypes = {
-  children: PropTypes.node.isRequired,
-  question: PropTypes.string
+  responses: PropTypes.node.isRequired,
+  question: PropTypes.string,
+  handleResponse: PropTypes.func.isRequired
 }
 
 YesNo.defaultProps = {
