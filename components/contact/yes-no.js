@@ -14,10 +14,10 @@ const YesNo = ({children, question}) => {
     setNo(true)
   }
 
-  const reset = () => {
-    setYes(false)
-    setNo(false)
-  }
+  // const reset = () => {
+  //   setYes(false)
+  //   setNo(false)
+  // }
 
   return (
     <div>
@@ -28,7 +28,7 @@ const YesNo = ({children, question}) => {
           <Button onClick={handleNo}>Non</Button>
         </div>
       )}
-      {(yes || no) && <Button onClick={reset}>Retour</Button>}
+      {/* {(yes || no) && <Button onClick={reset}>Retour</Button>} */}
       {yes && (children[0] || children)}
       {no && children[1]}
     </div>
