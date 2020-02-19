@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Button from '../button'
 
-const YesNo = ({question, responses, handleResponse}) => {
+const Questions = ({question, responses, handleResponse}) => {
   return (
     <div>
-      <div>{question}</div>
+      <div><h4>{question}</h4></div>
       {responses.map(response => (
         <Button
           key={response.label}
@@ -18,14 +18,14 @@ const YesNo = ({question, responses, handleResponse}) => {
   )
 }
 
-YesNo.propTypes = {
+Questions.propTypes = {
   responses: PropTypes.node.isRequired,
   question: PropTypes.string,
   handleResponse: PropTypes.func.isRequired
 }
 
-YesNo.defaultProps = {
+Questions.defaultProps = {
   question: null
 }
 
-export default YesNo
+export default Questions
