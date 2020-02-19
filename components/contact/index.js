@@ -1,65 +1,72 @@
 import React, {useState} from 'react'
-import {User, Home} from 'react-feather'
-
 import Button from '../button'
-import YesNo from './yes-no'
+import Questions from './questions'
 
 const Contact = () => {
   const [user, setUser] = useState(null)
+  const [hasBL, setHasBL] = useState(null)
 
-  const responses = [
-    {label: 'Je suis un Citoyen', value: 'citoyen'},
-    {label: 'Je suis une Commune', value: 'commune'},
-    {label: 'autre label', value: 'autre value'}
-  ]
-
-  const question = 'Ceci est une question'
-
-  const reset = () => {
-    setUser(false)
+  const question = {
+    q1: 'Vous êtes :',
+    q2: 'Avez-vous déjà une Base Adresse Locale ?'
   }
 
-  console.log(user)
+  const responses = {
+    r1: [
+      {label: 'Je suis un Citoyen', value: 'citoyen'},
+      {label: 'Je suis une Commune', value: 'commune'}
+    ],
+    r2: [
+      {label: 'Oui', value: 'hasBL'},
+      {label: 'Non', value: 'noBL'}
+    ],
+    r3: [
+      {label: 'J‘ai besoin d‘aide pour utiliser l‘éditeur', value: 'pbEditor'},
+      {label: 'Je ne souhaite pas utiliser France Connect', value: 'pbFC'},
+      {label: 'Autre...', value: 'autre'}
+    ]
+  }
+
+  const reset = () => {
+    setUser(null)
+    setHasBL(null)
+  }
 
   return (
     <div className='container'>
       {!user && (
-        <YesNo question={question} handleResponse={setUser} responses={responses} />
+        <Questions question={question.q1} handleResponse={setUser} responses={responses.r1} />
       )}
 
       {user === 'citoyen' && (
-        // <YesNo question='Vous avez un problème avec votre adresse ?'>
-        //   <div>
-        //     <h4>Merci de consulter la mairie de votre commune afin qu‘elle crée une Base d‘Adresse Locale</h4>
-        //     <p>Elle pourra utiliser notre outil.</p>
-        //   </div>
-        //   <Button style={{marginTop: 45}} onClick={reset}>Reset</Button>
-        // </YesNo>
-        <div>Citoyen</div>
+        <div className='grid-button'>
+          <Button>Lien vers la Doc</Button>
+          <Button>MailTo</Button>
+        </div>
       )}
 
-      {user === 'commune' && (
-        // <YesNo question='Avez vous déjà une BAL ?'>
-        //   <YesNo question='Avez-vous besoin d‘aide pour utiliser l‘éditeur ?'>
-        //     <YesNo question='Avez-vous consulté la documentation ?'>
-        //       <a>MailTo</a>
-        //       <a>Lien vers la documentation</a>
-        //     </YesNo>
-        //     <YesNo question='Vous avez un probmème avec France Connect ?'>
-        //       <a>Explications rassurantes</a>
-        //       <a>MailTo</a>
-        //     </YesNo>
-        //   </YesNo>
-        //   <YesNo question='Le Prefet ou un Citoyen vous a demandé de créer ou mettre à jour une BAL ?'>
-        //     <a>Liens vers la FAQ</a>
-        //     <a>MailTo</a>
-        //   </YesNo>
-        // </YesNo>
-        <div>Commune</div>
+      {(user === 'commune' && !hasBL) && (
+        <Questions question={question.q2} handleResponse={setHasBL} responses={responses.r2} />
+      )}
+
+      {(user === 'commune' && hasBL === 'hasBL') && (
+        <div className='grid-button'>
+          <Button>J‘ai besoin d‘aide pour utiliser l‘éditeur BAL</Button>
+          <Button>Je ne souhaite pas utiliser France Connect</Button>
+          <Button>Autre chose...</Button>
+        </div>
+      )}
+
+      {(user === 'commune' && hasBL === 'noBL') && (
+        <div className='grid-button'>
+          <Button>MailTo</Button>
+          <Button>Doc Base Locale</Button>
+          <Button>Editeur BAL</Button>
+        </div>
       )}
 
       {user && (
-        <Button className='butt' onClick={reset}>Reset</Button>
+        <Button style={{marginTop: 45}} onClick={reset}>Reset</Button>
       )}
 
       <style jsx>{`
@@ -68,9 +75,11 @@ const Contact = () => {
           margin-top: 25px;
         }
 
-        .butt {
-          vertical-align: sub;
-          padding-right: 5px;
+        .grid-button {
+          display: grid;
+          justify-items: center;
+          grid-gap: 25px;
+          grid-template-columns: repeat(auto-fit, minmax(auto));
         }
 
         h5 {
