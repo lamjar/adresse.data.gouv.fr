@@ -22,10 +22,12 @@ const MailTo = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    window.location.href = mailTo
-    setMail(null)
-    setSubject(null)
-    setMessage(null)
+    if (mail && subject && message) {
+      window.location.href = mailTo
+      setMail(null)
+      setSubject(null)
+      setMessage(null)
+    }
   }
 
   return (
@@ -47,30 +49,6 @@ const MailTo = () => {
             </div>
           </form>
         </div>
-        <div>
-          <div className='preview'>
-            {mail && (
-              <div>
-                <p><b>Email :</b></p>
-                <p>{mail}</p>
-              </div>
-            )}
-
-            {subject && (
-              <div>
-                <p><b>Sujet:</b></p>
-                <p>{subject}</p>
-              </div>
-            )}
-
-            {message && (
-              <div>
-                <p><b>Message: </b></p>
-                <p>{message}</p>
-              </div>
-            )}
-          </div>
-        </div>
       </div>
       <style jsx>{`
         .parent-container {
@@ -78,26 +56,15 @@ const MailTo = () => {
           width: 100%;
         }
 
-        .preview {
-          height: 80%;
-          margin: 35px;
-          padding: 15px;
-          border: 1px solid lightgrey;
-        }
-
         .container {
           width: 100%;
           display: grid;
-          grid-template-columns: 50% 50%;
+          grid-template-columns: auto;
         }
 
         @media (max-width: 700px) {
           .container {
             grid-template-columns: 100%;
-          }
-
-          .preview {
-            display: none;
           }
     `}</style>
     </div>

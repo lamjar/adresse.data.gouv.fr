@@ -41,7 +41,8 @@ const Contact = () => {
 
       {user === 'citoyen' && (
         <div className='grid-button'>
-          <Button>Lien vers la Documentation</Button>
+          <Button>Voir la Documentation</Button>
+          <p>ou</p>
           <MailTo />
         </div>
       )}
@@ -53,7 +54,9 @@ const Contact = () => {
       {(user === 'commune' && hasBL === 'hasBL') && (
         <div className='grid-button'>
           <Button>J‘ai besoin d‘aide pour utiliser l‘éditeur BAL</Button>
+          <span>ou</span>
           <Button>Je ne souhaite pas utiliser France Connect</Button>
+          <span>ou</span>
           <Button>Autre chose...</Button>
         </div>
       )}
@@ -67,7 +70,7 @@ const Contact = () => {
       )}
 
       {user && (
-        <Button style={{margin: 45}} onClick={reset}>Retour</Button>
+        <Button style={{margin: 55}} onClick={reset}>Retour</Button>
       )}
 
       <style jsx>{`
