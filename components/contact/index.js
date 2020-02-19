@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import Button from '../button'
 import Questions from './questions'
+import MailTo from './mail-to'
 
 const Contact = () => {
   const [user, setUser] = useState(null)
@@ -40,8 +41,8 @@ const Contact = () => {
 
       {user === 'citoyen' && (
         <div className='grid-button'>
-          <Button>Lien vers la Doc</Button>
-          <Button>MailTo</Button>
+          <Button>Lien vers la Documentation</Button>
+          <MailTo />
         </div>
       )}
 
@@ -59,14 +60,14 @@ const Contact = () => {
 
       {(user === 'commune' && hasBL === 'noBL') && (
         <div className='grid-button'>
-          <Button>MailTo</Button>
           <Button>Doc Base Locale</Button>
           <Button>Editeur BAL</Button>
+          <MailTo />
         </div>
       )}
 
       {user && (
-        <Button style={{marginTop: 45}} onClick={reset}>Reset</Button>
+        <Button style={{margin: 45}} onClick={reset}>Retour</Button>
       )}
 
       <style jsx>{`
