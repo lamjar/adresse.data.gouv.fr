@@ -7,13 +7,12 @@ import theme from '../../../../../styles/theme'
 import Header from '../header'
 
 import Section from '../../../../section'
-import withFetch from '../../../../hoc/with-fetch'
 import TableList from '../../../../table-list'
 import NoPositionWarning from '../../../../no-position-warning'
 import Breadcrumb from './breadcrumb'
 import CommunePreview from './commune-preview'
 
-const Commune = ({commune, voies, dataset}) => {
+const Commune = ({commune, dataset}) => {
   const {id, title, organization} = dataset
   const {query, push} = useRouter()
   const noPosition = 'Ce lieu nommé ne possède pas encore de position renseignée.'
@@ -32,11 +31,12 @@ const Commune = ({commune, voies, dataset}) => {
 
   const selectVoie = voie => {
     const {codeVoie, numerosCount, position} = voie
+    const {id, codeCommune} = query
+    const href = `/jeux-de-donnees/id?id=${id}&codeCommune=${codeCommune}&codeVoie=${codeVoie}`
+    const as = `/bases-locales/jeux-de-donnees/${id}/${codeCommune}/${codeVoie}`
 
     if (numerosCount > 0 || position) {
-      push(
-        `/bases-locales/jeux-de-donnees/${query.id}/${commune.code}/${codeVoie}`
-      )
+      push(href, as)
     }
   }
 
@@ -53,8 +53,8 @@ const Commune = ({commune, voies, dataset}) => {
 
         <TableList
           title='Voies de la commune'
-          subtitle={`${voies.length} voies répertoriées`}
-          list={voies}
+          subtitle={`${commune.voies.length} voies répertoriées`}
+          list={commune.voies}
           cols={cols}
           textFilter={item => item.nomVoie}
           handleSelect={selectVoie} />
@@ -122,7 +122,6 @@ Commune.propTypes = {
     page: PropTypes.string,
     organization: PropTypes.object
   }).isRequired,
-  voies: PropTypes.array,
   commune: PropTypes.shape({
     nom: PropTypes.string.isRequired,
     code: PropTypes.string.isRequired,
@@ -139,11 +138,7 @@ Commune.propTypes = {
 }
 
 Commune.defaultProps = {
-  voies: null,
   commune: null
 }
 
-export default withFetch(data => ({
-  commune: data,
-  voies: data.voies
-}))(Commune)
+export default Commune
