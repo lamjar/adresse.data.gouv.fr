@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withRouter, useRouter} from 'next/router'
+import {useRouter} from 'next/router'
 import {Download} from 'react-feather'
 
 import theme from '../../../../styles/theme'
@@ -41,9 +41,10 @@ const Dataset = ({dataset, summary}) => {
   }
 
   const handleSelect = code => {
-    push(
-      `/bases-locales/jeux-de-donnees/${query.id}/${code}`
-    )
+    const {id} = query
+    const href = `/jeux-de-donnees/id?id=${id}&codeCommune=${code}`
+    const as = `/bases-locales/jeux-de-donnees/${id}/${code}`
+    push(href, as)
   }
 
   return (
@@ -131,4 +132,4 @@ Dataset.propTypes = {
   summary: PropTypes.object.isRequired
 }
 
-export default withRouter(Dataset)
+export default Dataset
