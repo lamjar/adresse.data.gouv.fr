@@ -31,9 +31,9 @@ const Commune = ({commune, dataset}) => {
 
   const selectVoie = voie => {
     const {codeVoie, numerosCount, position} = voie
-    const {id, codeCommune} = query
-    const href = `/jeux-de-donnees/id?id=${id}&codeCommune=${codeCommune}&codeVoie=${codeVoie}`
-    const as = `/bases-locales/jeux-de-donnees/${id}/${codeCommune}/${codeVoie}`
+    const {codeCommune} = query
+    const href = `/jeux-de-donnees/id?id=${query.id}&codeCommune=${codeCommune}&codeVoie=${codeVoie}`
+    const as = `/bases-locales/jeux-de-donnees/${query.id}/${codeCommune}/${codeVoie}`
 
     if (numerosCount > 0 || position) {
       push(href, as)
