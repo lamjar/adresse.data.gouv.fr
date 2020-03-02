@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import {getCommune, getDataset} from '../../../../lib/bal/api'
@@ -9,17 +9,11 @@ import withErrors from '../../../../components/hoc/with-errors'
 import Commune from '../../../../components/bases-locales/bases-adresse-locales/dataset/commune'
 
 const CommunePage = ({commune, dataset}) => {
-  const [communePromise, setCommunePromise] = useState(null)
-
-  useEffect(() => {
-    setCommunePromise(getCommune(dataset.id, commune.code))
-  }, [dataset.id, commune.code])
-
   const description = `${commune.nom} - ${commune.code}`
 
   return (
     <Page title={`Commune de ${commune.nom}`} description={description}>
-      <Commune promise={communePromise} dataset={dataset} />
+      <Commune commune={commune} dataset={dataset} />
     </Page>
   )
 }
