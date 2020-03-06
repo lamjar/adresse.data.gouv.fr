@@ -17,10 +17,12 @@ import Form from '../../components/bases-locales/publication/form'
 import Publishing from '../../components/bases-locales/publication/publishing'
 import Published from '../../components/bases-locales/publication/published'
 
-const PublicationPage = React.memo(({submissionId, submission}) => {
+const PublicationPage = React.memo(({submissionId, submission, token}) => {
   const [step, setStep] = useState(null)
   const [error, setError] = useState(null)
   const [mandat, setMandat] = useState(null)
+  const [sessionToken, setSessionToken] = useState(null)
+  console.log('sessionToken', sessionToken)
 
   const handleValidBal = () => {
     // TODO Allow uploading a file with submissionsBal
@@ -80,6 +82,22 @@ const PublicationPage = React.memo(({submissionId, submission}) => {
       }
     }
   }, [error, submission, submissionId])
+
+  useEffect(() => {
+    if (sessionStorage && token) {
+      sessionStorage.setItem('token', token)
+      const href = `/bases-locales/publication?submissionId=${submission._id}`
+      const as = href
+      Router.push(href, as, {shallow: true})
+    }
+  }, [submission._id, token])
+
+  useEffect(() => {
+    if (sessionStorage) {
+      const sessionToken = sessionStorage.getItem('token')
+      setSessionToken(sessionToken)
+    }
+  }, [])
 
   return (
     <Page>
@@ -141,7 +159,7 @@ const PublicationPage = React.memo(({submissionId, submission}) => {
 })
 
 PublicationPage.getInitialProps = async ({query}) => {
-  const {url, submissionId} = query
+  const {url, submissionId, token} = query
   let submission
 
   if (submissionId) {
@@ -152,13 +170,15 @@ PublicationPage.getInitialProps = async ({query}) => {
 
   return {
     submission,
-    submissionId
+    submissionId,
+    token
   }
 }
 
 PublicationPage.defaultProps = {
   submissionId: null,
-  submission: null
+  submission: null,
+  token: null
 }
 
 PublicationPage.propTypes = {
@@ -174,7 +194,8 @@ PublicationPage.propTypes = {
     }).isRequired,
     publicationUrl: PropTypes.string
   }),
-  submissionId: PropTypes.string
+  submissionId: PropTypes.string,
+  token: PropTypes.string
 }
 
 export default withErrors(PublicationPage)
